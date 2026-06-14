@@ -21,7 +21,6 @@ static const string kProductsFile = "products.txt";
 static const string kInteractionsFile = "interactions.txt";
 static const string kOrdersFile = "orders.txt";
 
-// ─── I/O helpers ─────────────────────────────────────────────────────────────
 static void clearInput() {
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -56,22 +55,15 @@ static string readLine(const string& prompt) {
     return v;
 }
 
-// ─── Banner ───────────────────────────────────────────────────────────────────
 static void banner() {
     cout << R"(
-  ====================================================================
-  |      _____ __  __    _    ____ _____   ____  _   _  ___  ____    |
-  |     / ____|  \/  |  / \  |  _ \_   _| / ___|| | | |/ _ \|  _ \   |
-  |     \___ \| |\/| | / _ \ | |_) || |   \___ \| |_| | | | | |_) |  |
-  |      ___) | |  | |/ ___ \|  _ < | |    ___) |  _  | |_| |  __/   |
-  |     |____/|_|  |_/_/   \_\_| \_\|_|   |____/|_| |_|\___/|_|      |
-  |                                                                  |
-  |          AI-Powered E-Commerce Platform  v1.0                    |
-  ====================================================================
+  =========================================================
+    Smart E-Commerce System (with Recommendation Engine)
+  =========================================================
 )" << "\n";
 }
 
-// ─── Data helpers ────────────────────────────────────────────────────────────
+
 static vector<string> split(const string& s, char delim) {
     vector<string> parts;
     string item;
@@ -179,9 +171,7 @@ static void saveAllInteractions(const map<string, map<int, InteractionCounts>>& 
     }
 }
 
-static void loadHistoryForUser(const string& username,
-                               map<int, int>& views,
-                               map<int, int>& purchases) {
+static void loadHistoryForUser(const string& username,map<int, int>& views,map<int, int>& purchases) {
     views.clear();
     purchases.clear();
     auto all = loadAllInteractions();
@@ -195,9 +185,7 @@ static void loadHistoryForUser(const string& username,
     }
 }
 
-static void saveHistoryForUser(const string& username,
-                               const map<int, int>& views,
-                               const map<int, int>& purchases) {
+static void saveHistoryForUser(const string& username,const map<int, int>& views,const map<int, int>& purchases) {
     auto all = loadAllInteractions();
     auto& userMap = all[username];
     userMap.clear();
@@ -246,7 +234,7 @@ static void appendOrder(const Order& order, const string& username) {
     out << "\n";
 }
 
-// ─── Product ──────────────────────────────────────────────────────────────────
+
 Product::Product() : id(0), price(0.0), stock(0), viewCount(0), purchaseCount(0) {}
 
 Product::Product(int id, string name, string category, double price, int stock)
@@ -281,7 +269,7 @@ void Product::setStock(int value) { stock = value; }
 void Product::setViewCount(int value) { viewCount = value; }
 void Product::setPurchaseCount(int value) { purchaseCount = value; }
 
-// ─── Cart ─────────────────────────────────────────────────────────────────────
+
 void Cart::addItem(Product p, int qty) {
     for (auto& item : items) {
         if (item.product.getId() == p.getId()) {
@@ -319,7 +307,7 @@ double Cart::calculateTotal() {
 
 vector<CartItem>& Cart::getItems() { return items; }
 
-// ─── Order ────────────────────────────────────────────────────────────────────
+
 Order::Order() : orderId(0), totalPrice(0.0) {}
 
 Order::Order(int id, const vector<CartItem>& items, double total, const string& date)
@@ -338,10 +326,8 @@ double Order::getTotal() const { return totalPrice; }
 const string& Order::getDate() const { return date; }
 const vector<CartItem>& Order::getItems() const { return items; }
 
-// ─── Recommendation Engine ────────────────────────────────────────────────────
-vector<Product> RecommendationEngine::recommendProducts(Customer& customer,
-                                                        vector<Product>& products,
-                                                        int topN) {
+
+vector<Product> RecommendationEngine::recommendProducts(Customer& customer,vector<Product>& products,int topN) {
     struct ScoredProduct {
         Product product;
         double score;
@@ -383,7 +369,6 @@ vector<Product> RecommendationEngine::recommendProducts(Customer& customer,
     return result;
 }
 
-// ─── Admin ────────────────────────────────────────────────────────────────────
 void Admin::addProduct() {
     int nextId = 1;
     for (const auto& p : g_products) {
@@ -487,7 +472,7 @@ void Admin::menu() {
     }
 }
 
-// ─── Customer ─────────────────────────────────────────────────────────────────
+
 void Customer::browseProducts() {
     cout << "\nProducts:\n";
     for (const auto& p : g_products) {
@@ -632,7 +617,7 @@ void Customer::setHistory(const map<int, int>& views, const map<int, int>& purch
 const map<int, int>& Customer::getViewedProducts() const { return viewedProducts; }
 const map<int, int>& Customer::getPurchasedProducts() const { return purchasedProducts; }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
+
 int main() {
     loadProducts();
     banner();
