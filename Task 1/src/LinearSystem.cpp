@@ -4,10 +4,8 @@
 #include <iostream>
 
 LinearSystem::LinearSystem(Matrix* pA, Vector* pb) {
-    // ĐÃ XÓA: assert kiểm tra ma trận vuông
-    assert(pA->GetNumberOfRows() == pb->GetSize()); // Kích thước hàng của A vẫn phải khớp với b
+    assert(pA->GetNumberOfRows() == pb->GetSize()); // row size of A must match with row size of B
     
-    // Lưu ý: Kích thước của véc-tơ nghiệm (số lượng biến) sẽ bằng với số CỘT của ma trận A
     mSize = pA->GetNumberOfColumns(); 
     mpA = pA;
     mpb = pb;
@@ -15,14 +13,12 @@ LinearSystem::LinearSystem(Matrix* pA, Vector* pb) {
 
 LinearSystem::~LinearSystem() {}
 
-// Hàm giải phương trình
+// Function to solve the equation
 Vector LinearSystem::Solve() {
     int rows = mpA->GetNumberOfRows();
     int cols = mpA->GetNumberOfColumns();
 
-    // ---------------------------------------------------------
-    // XỬ LÝ NGOẠI LỆ: MA TRẬN KHÔNG VUÔNG (Hệ thừa/thiếu biến)
-    // ---------------------------------------------------------
+    // Exception handling: Non-square matrix
     if (rows != cols) {
         // Sử dụng ma trận giả nghịch đảo Moore-Penrose (x = A^+ * b)
         Matrix pseudoInv = mpA->PseudoInverse();
