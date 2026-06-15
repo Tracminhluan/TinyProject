@@ -1,3 +1,6 @@
+/*A customer can 
+(1) browse products, (2) add items to cart, 
+(3) purchase products, and (4) receive recommendations*/
 #pragma once
 #include "User.hpp"
 #include "Cart.hpp"
@@ -16,10 +19,14 @@ private:
     map<int, int> purchasedProducts;
 
 public:
+/*
+A customer can 
+(1) browse products, (2) add items to cart, 
+(3) purchase products, and (4) receive recommendations
+*/
     void browseProducts();
     void addToCart(Product& p, int qty);
     void checkout();
-
     void viewRecommendations();
 
     void menu() override;

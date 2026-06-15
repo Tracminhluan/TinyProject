@@ -17,9 +17,9 @@
 
 using namespace std;
 
-static const string kProductsFile = "database/products.txt";
-static const string kInteractionsFile = "database/interactions.txt";
-static const string kOrdersFile = "database/orders.txt";
+static const string ProductsFile = "database/products.txt";
+static const string InteractionsFile = "database/interactions.txt";
+static const string OrdersFile = "database/orders.txt";
 
 static void clearInput() {
     cin.clear();
@@ -96,7 +96,7 @@ static Product* findProductById(int id) {
 }
 
 static void saveProducts() {
-    ofstream out(kProductsFile);
+    ofstream out(ProductsFile);
     for (const auto& p : g_products) {
         out << p.getId() << "|" << p.getName() << "|" << p.getCategory()
             << "|" << p.getPrice() << "|" << p.getStock() << "|"
@@ -106,7 +106,7 @@ static void saveProducts() {
 
 static void loadProducts() {
     g_products.clear();
-    ifstream in(kProductsFile);
+    ifstream in(ProductsFile);
     if (!in) {
         g_products.push_back(Product(1, "Wireless Mouse", "Electronics", 19.99, 40));
         g_products.push_back(Product(2, "Notebook", "Stationery", 3.49, 200));
@@ -138,7 +138,7 @@ struct InteractionCounts {
 
 static map<string, map<int, InteractionCounts>> loadAllInteractions() {
     map<string, map<int, InteractionCounts>> data;
-    ifstream in(kInteractionsFile);
+    ifstream in(InteractionsFile);
     if (!in) {
         return data;
     }
@@ -162,7 +162,7 @@ static map<string, map<int, InteractionCounts>> loadAllInteractions() {
 }
 
 static void saveAllInteractions(const map<string, map<int, InteractionCounts>>& data) {
-    ofstream out(kInteractionsFile);
+    ofstream out(InteractionsFile);
     for (const auto& userEntry : data) {
         for (const auto& productEntry : userEntry.second) {
             out << userEntry.first << "|" << productEntry.first << "|"
@@ -202,7 +202,7 @@ static void saveHistoryForUser(const string& username,const map<int, int>& views
 }
 
 static int nextOrderId() {
-    ifstream in(kOrdersFile);
+    ifstream in(OrdersFile);
     int maxId = 0;
     string line;
     while (getline(in, line)) {
@@ -219,7 +219,7 @@ static int nextOrderId() {
 }
 
 static void appendOrder(const Order& order, const string& username) {
-    ofstream out(kOrdersFile, ios::app);
+    ofstream out(OrdersFile, ios::app);
     out << order.getId() << "|" << username << "|" << order.getDate() << "|"
         << order.getTotal() << "|";
     const auto& items = order.getItems();
