@@ -20,7 +20,7 @@ The scoring mechanism is computed by:
 Use a C++ compiler such as `g++`:
 
 ```bash
-g++ main.cpp src/Admin.cpp src/Cart.cpp src/Order.cpp src/Product.cpp src/RecommendationEngine.cpp src/Utils.cpp -o main
+g++ main.cpp -o main
 ```
 
 ## Run
